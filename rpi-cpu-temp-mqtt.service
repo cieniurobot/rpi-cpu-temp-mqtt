@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 Restart=always
 RestartSec=5
-ExecStart=/home/pi/disk1/apps/python/rpi_cpu_temp_mqtt/.venv/bin/python /home/pi/disk1/apps/python/rpi_cpu_temp_mqtt/main.py
+ExecStart=/usr/bin/python3 /usr/bin/local/rpi-cpu-temp-mqtt/main.py
 
 [Install]
 WantedBy=multi-user.target
