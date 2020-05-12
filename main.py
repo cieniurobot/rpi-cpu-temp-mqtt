@@ -8,11 +8,11 @@ import paho.mqtt.client as mqtt
 last_temp = None
 
 consoleFormatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger()
+logger = logging.getLogger('rpi-cpu-temp-mqtt')
 logger.setLevel(logging.DEBUG)
 consoleHandler = logging.StreamHandler(sys.stdout)
 consoleHandler.setFormatter(consoleFormatter)
-consoleHandler.setLevel(logging.ERROR)
+consoleHandler.setLevel(logging.INFO)
 logger.addHandler(consoleHandler)
 
 logger.info("Starting...")
