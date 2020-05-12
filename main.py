@@ -12,7 +12,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 consoleHandler = logging.StreamHandler(sys.stdout)
 consoleHandler.setFormatter(consoleFormatter)
-consoleHandler.setLevel(logging.INFO)
+consoleHandler.setLevel(logging.ERROR)
 logger.addHandler(consoleHandler)
 
 logger.info("Starting...")
@@ -49,12 +49,18 @@ client = mqtt.Client()
 client.username_pw_set(args.username, args.password)
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect(args.host, args.port, args.keepalive)
 
-while True:
-    temp = measure_temp()
-    if last_temp != temp:
-        logger.info("Temperature update: {}".format(temp))
-        last_temp = temp
-        client.publish(args.topic, temp)
-    time.sleep(2)
+try:
+    client.connect(args.host, args.port, args.keepalive)
+
+    while True:
+        temp = measure_temp()
+        if last_temp != temp:
+            logger.info("Temperature update: {}".format(temp))
+            last_temp = temp
+            client.publish(args.topic, temp)
+        time.sleep(2)
+except ConnectionRefusedError:
+    print("Connection error. Make sure you have proper access rights!")
+except KeyboardInterrupt:
+    print("Closed")
