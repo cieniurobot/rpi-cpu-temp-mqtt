@@ -22,10 +22,10 @@ parser.add_argument("-P", "--password", help="Password for mqtt connection")
 parser.add_argument("-H", "--host", help="Host for mqtt connection", default="127.0.0.1")
 parser.add_argument("-p", "--port", help="Port for mqtt connection", default=1883)
 parser.add_argument(
-"-k", 
-"--keepalive", 
-help="Keepalive param for mqtt connection. Value in seconds", 
-default=60
+    "-k",
+    "--keepalive",
+    help="Keepalive param for mqtt connection. Value in seconds",
+    default=60
 )
 parser.add_argument("-t", "--topic", help="Topic for temperature publication", default="rpi_cpu_temp_mqtt/temp")
 args = parser.parse_args()
@@ -42,14 +42,14 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    logger.info("New meessage topic: {}, payload: {}".format(msg.topic, str(msg.payload)))
+    logger.info("New message topic: {}, payload: {}".format(msg.topic, str(msg.payload)))
+
 
 client = mqtt.Client()
 client.username_pw_set(args.username, args.password)
 client.on_connect = on_connect
 client.on_message = on_message
 client.connect(args.host, args.port, args.keepalive)
-#client.loop_forever()
 
 while True:
     temp = measure_temp()
